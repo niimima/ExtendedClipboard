@@ -5,8 +5,37 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ExtendedClipboard"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="640" Width="290"
+        MaxWidth="{Binding RelativeSource={RelativeSource Self}, Path=Width}"
+        MinWidth="{Binding RelativeSource={RelativeSource Self}, Path=Width}"
+        Topmost="True">
     <Grid>
-
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <StackPanel>
+            <TextBlock Margin="5, 0, 0, 0">ダブルクリックでコピー</TextBlock>
+            <StackPanel Orientation="Horizontal">
+                <Label VerticalAlignment="Center">フィルタ文字列：</Label>
+                <TextBox Name="TextBox" Width="175" VerticalAlignment="Center"
+                     TextChanged="TextBoxBase_OnTextChanged" />
+            </StackPanel>
+        </StackPanel>
+        <ListView Name="ListView" Grid.Row="1" PreviewMouseDoubleClick="ListView_OnPreviewMouseDoubleClick">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Width="240" Height="135" ToolTip="{Binding TooltipText}">
+                        <!-- セル全体に Text と Bitmap -->
+                        <Image Source="{Binding Bitmap}" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center"  />
+                        <TextBlock Text="{Binding TextHead}" Margin="5" TextWrapping="Wrap" TextTrimming="WordEllipsis" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                        <!-- 左下に Timestamp -->
+                        <Grid Background="#aa444444" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="5,0,0,5">
+                            <TextBlock Text="{Binding TimestampTime}" Foreground="White" Opacity="0.85" Margin="5,0" />
+                        </Grid>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </Grid>
 </Window>
